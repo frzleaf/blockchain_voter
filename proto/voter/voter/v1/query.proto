@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 package voter.voter.v1;
 
 import "amino/amino.proto";
@@ -15,6 +16,11 @@ service Query {
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/voter/voter/v1/params";
   }
+
+  // ShowPoll Queries a list of ShowPoll items.
+  rpc ShowPoll(QueryShowPollRequest) returns (QueryShowPollResponse) {
+    option (google.api.http).get = "/voter/voter/v1/show_poll/{poll_id}";
+  }
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -27,4 +33,17 @@ message QueryParamsResponse {
     (gogoproto.nullable) = false,
     (amino.dont_omitempty) = true
   ];
+}
+
+// QueryShowPollRequest defines the QueryShowPollRequest message.
+message QueryShowPollRequest {
+  uint64 poll_id = 1;
+}
+
+// QueryShowPollResponse defines the QueryShowPollResponse message.
+message QueryShowPollResponse {
+  string create = 1;
+  string id = 2;
+  string title = 3;
+  string options = 4;
 }

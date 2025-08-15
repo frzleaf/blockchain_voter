@@ -17,6 +17,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Use:       "params",
 					Short:     "Shows the parameters of the module",
 				},
+				{
+					RpcMethod:      "ShowPoll",
+					Use:            "show-poll [poll-id]",
+					Short:          "Query show-poll",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "poll_id"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},
@@ -29,9 +36,9 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Skip:      true, // skipped because authority gated
 				},
 				{
-					RpcMethod:      "CreatePool",
-					Use:            "create-pool [title] [options]",
-					Short:          "Send a create-pool tx",
+					RpcMethod:      "CreatePoll",
+					Use:            "create-poll [title] [options]",
+					Short:          "Send a create-poll tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "title"}, {ProtoField: "options", Varargs: true}},
 				},
 				{
@@ -39,6 +46,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Use:            "cast-vote [poll-id] [option]",
 					Short:          "Send a cast-vote tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "poll_id"}, {ProtoField: "option"}},
+				},
+				{
+					RpcMethod:      "CreatePoll",
+					Use:            "create-poll [title] [options]",
+					Short:          "Send a create-poll tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "title"}, {ProtoField: "options", Varargs: true}},
 				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},

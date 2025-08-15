@@ -2,18 +2,35 @@ package keeper
 
 import (
 	"context"
+	"strconv"
 
 	"voter/x/voter/types"
 
 	errorsmod "cosmossdk.io/errors"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-func (k msgServer) CastVote(ctx context.Context, msg *types.MsgCastVote) (*types.MsgCastVoteResponse, error) {
-	if _, err := k.addressCodec.StringToBytes(msg.Creator); err != nil {
-		return nil, errorsmod.Wrap(err, "invalid authority address")
+func (k msgServer) CastVote(goCtx context.Context, msg *types.MsgCastVote) (*types.MsgCastVoteResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	pollId, err := strconv.ParseInt(msg.PollId, 10, 64)
+	if err != nil {
+		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "invalid poll id")
 	}
 
-	// TODO: Handle the message
+	vote := types.Vote{
+		PollID:  uint64(pollId),
+		Creator: msg.Creator,
+		Option:  msg.Option,
+	}
 
-	return &types.MsgCastVoteResponse{}, nil
+	if err := k.Keeper.CastVote(ctx, vote); err != nil {
+		return nil, err
+	}
+
+	return &types.MsgCastVoteResponse{
+		Id:     pollId,
+		Option: vote.Option,
+	}, nil
 }
