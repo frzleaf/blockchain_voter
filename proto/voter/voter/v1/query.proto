@@ -7,6 +7,7 @@ import "cosmos/base/query/v1beta1/pagination.proto";
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "voter/voter/v1/params.proto";
+import "voter/voter/v1/vote.proto";
 
 option go_package = "voter/x/voter/types";
 
@@ -20,6 +21,11 @@ service Query {
   // ShowPoll Queries a list of ShowPoll items.
   rpc ShowPoll(QueryShowPollRequest) returns (QueryShowPollResponse) {
     option (google.api.http).get = "/voter/voter/v1/show_poll/{poll_id}";
+  }
+
+  // ShowPollVotes Queries a list of ShowPollVotes items.
+  rpc ShowPollVotes(QueryShowPollVotesRequest) returns (QueryShowPollVotesResponse) {
+    option (google.api.http).get = "/voter/voter/v1/show_poll_votes/{poll_id}";
   }
 }
 
@@ -42,8 +48,21 @@ message QueryShowPollRequest {
 
 // QueryShowPollResponse defines the QueryShowPollResponse message.
 message QueryShowPollResponse {
-  string create = 1;
-  string id = 2;
+  string creator = 1;
+  uint64 id = 2;
   string title = 3;
-  string options = 4;
+  repeated string options = 4;
+}
+
+// QueryShowPollVotesRequest defines the QueryShowPollVotesRequest message.
+message QueryShowPollVotesRequest {
+  uint64 poll_id = 1;
+
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+// QueryShowPollVotesResponse defines the QueryShowPollVotesResponse message.
+message QueryShowPollVotesResponse {
+  repeated Vote votes = 1;
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }

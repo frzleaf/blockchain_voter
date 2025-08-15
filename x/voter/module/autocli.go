@@ -24,6 +24,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "poll_id"}},
 				},
 
+				{
+					RpcMethod:      "ShowPollVotes",
+					Use:            "show-poll-votes [poll-id]",
+					Short:          "Query show-poll-votes",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "poll_id"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},

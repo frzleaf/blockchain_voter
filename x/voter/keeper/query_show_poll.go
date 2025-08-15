@@ -14,7 +14,15 @@ func (q queryServer) ShowPoll(ctx context.Context, req *types.QueryShowPollReque
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-	// TODO: Process the query
+	poll, found := q.k.GetPoll(ctx, req.PollId)
+	if !found {
+		return nil, status.Error(codes.NotFound, "poll not found")
+	}
 
-	return &types.QueryShowPollResponse{}, nil
+	return &types.QueryShowPollResponse{
+		Creator: poll.Creator,
+		Id:      poll.Id,
+		Title:   poll.Title,
+		Options: poll.Options,
+	}, nil
 }
