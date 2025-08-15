@@ -7,6 +7,6 @@ option go_package = "voter/x/voter/types";
 message Vote {
   string creator = 1;
   uint64 id = 2;
-  string poll_id = 3;
+  uint64 pollID = 3;
   string option = 4;
 }
