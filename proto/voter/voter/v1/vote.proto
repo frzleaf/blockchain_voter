@@ -1,0 +1,12 @@
+syntax = "proto3";
+package voter.voter.v1;
+
+option go_package = "voter/x/voter/types";
+
+// Vote defines the Vote message.
+message Vote {
+  string creator = 1;
+  uint64 id = 2;
+  string poll_id = 3;
+  string option = 4;
+}

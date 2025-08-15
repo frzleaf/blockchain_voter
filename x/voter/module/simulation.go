@@ -44,6 +44,21 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		weightMsgCreatePool,
 		votersimulation.SimulateMsgCreatePool(am.authKeeper, am.bankKeeper, am.keeper, simState.TxConfig),
 	))
+	const (
+		opWeightMsgCastVote          = "op_weight_msg_voter"
+		defaultWeightMsgCastVote int = 100
+	)
+
+	var weightMsgCastVote int
+	simState.AppParams.GetOrGenerate(opWeightMsgCastVote, &weightMsgCastVote, nil,
+		func(_ *rand.Rand) {
+			weightMsgCastVote = defaultWeightMsgCastVote
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgCastVote,
+		votersimulation.SimulateMsgCastVote(am.authKeeper, am.bankKeeper, am.keeper, simState.TxConfig),
+	))
 
 	return operations
 }

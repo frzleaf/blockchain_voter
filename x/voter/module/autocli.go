@@ -34,6 +34,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a create-pool tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "title"}, {ProtoField: "options", Varargs: true}},
 				},
+				{
+					RpcMethod:      "CastVote",
+					Use:            "cast-vote [poll-id] [option]",
+					Short:          "Send a cast-vote tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "poll_id"}, {ProtoField: "option"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},
